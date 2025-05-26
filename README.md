@@ -55,7 +55,7 @@ git clone https://github.com/mehran-sfz/Hiddify-User-Profile.git
 ```
 وارد دایرکتوری پروژه شوید:
 ```bash
-cd Hiddify-Profile
+cd Hiddify-User-Profile
 ```
 
 ## 3️⃣ تنظیمات Nginx
