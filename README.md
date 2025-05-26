@@ -51,7 +51,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 ## 2️⃣ دریافت پروژه
 پروژه را از گیت‌هاب دانلود کنید:
 ```bash
-git clone https://github.com/mehran-sfz/Hiddify-Profile.git
+git clone https://github.com/mehran-sfz/Hiddify-User-Profile.git
 ```
 وارد دایرکتوری پروژه شوید:
 ```bash
