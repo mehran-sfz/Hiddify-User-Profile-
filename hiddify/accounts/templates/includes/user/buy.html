@@ -1,0 +1,97 @@
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+  <div class="row w-100 justify-content-center align-items-center">
+    <!-- Buy config section -->
+    <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center justify-content-lg-end">
+      <div class="form-container bg-white rounded-lg shadow-lg p-5 mb-3">
+        <h3 class="text-center mb-4 text-success">خرید کانفیگ</h3>
+        <form id="buy-config" action="{% url 'buynewconfig' %}" method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="name" class="form-label text-end w-100">نام کانفیگ خود را وارد کنید:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-control form-control-lg text-end"
+              placeholder="نام کانفیگ"
+              required
+            />
+          </div>
+
+          <div class="mb-5">
+            <label for="accountOptions" class="form-label text-end w-100">انتخاب پلن:</label>
+            <select id="accountOptions_{{ forloop.counter }}" class="form-select" name="accountOption" required>
+              {% if plans %} {% for plan in plans %}
+              <option value="{{ plan.pk }}">{{ plan }}</option>
+              {% endfor %} {% endif %}
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100 py-2">خرید کانفیگ</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add config section -->
+    <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center justify-content-lg-start">
+      <div class="form-container bg-white rounded-lg shadow-lg p-5 mb-3">
+        <h3 class="text-center mb-4 text-primary">اضافه کردن کانفیگ</h3>
+        <form id="add-config" action="{% url 'addconfig' %}" method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="uuid" class="form-label text-end w-100">لینک کانفیگ خود را وارد کنید</label>
+            <input
+              type="text"
+              id="uuid"
+              name="uuid"
+              class="form-control form-control-lg text-end"
+              placeholder="لینک کانفیگ یا uuid"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 py-2">اضافه کردن کانفیگ</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CSS for centering the forms and adjusting spacing -->
+<style>
+  .vh-100 {
+    height: 100vh;
+  }
+
+  .form-container {
+    max-width: 100%;
+    width: 100%;
+    min-width: 300px; /* Min width for smaller screens */
+    height: auto;
+  }
+
+  @media (min-width: 768px) {
+    .form-container {
+      max-width: 400px; /* Sets form width for medium and larger screens */
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .row {
+      gap: 20px; /* Reduce gap between forms on extra-large screens */
+    }
+  }
+
+  .form-control,
+  .form-select {
+    margin-bottom: 10px; /* Adds space between input and select */
+  }
+
+  .form-control::placeholder {
+    font-size: 0.975rem; /* Adjusts placeholder font size */
+  }
+
+  .form-label {
+    margin-bottom: 5px; /* Adds space between label and input */
+  }
+</style>

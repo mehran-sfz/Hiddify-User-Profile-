@@ -1,0 +1,277 @@
+{% load custom_filters %}
+
+<div class="col-12 col-md-6">
+  <div class="card shadow-sm h-100">
+
+    {% if not config.package_days %}
+    <div
+      class="card-header d-flex justify-content-between align-items-center"
+      style="box-shadow: 0px 0px 5px 1px rgb(52 52 52 / 56%)"
+    >
+    {% elif config.package_days > 10 %}
+    <div
+      class="card-header d-flex justify-content-between align-items-center"
+      style="box-shadow: 0px 0px 5px 1px rgb(9 255 0 / 56%)"
+    >
+      {% elif config.package_days <= 10 and config.package_days > 5 %}
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+        style="box-shadow: 0px 0px 5px 1px rgb(235 255 0 / 56%)"
+      >
+        {% else %}
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+          style="box-shadow: 0px 0px 5px 1px rgb(255 0 0 / 56%)"
+        >
+          {% endif %}
+          <h5
+            class="card-title"
+            style="
+              font-family: 'Helvetica Neue', Arial, sans-serif;
+              padding: auto;
+            "
+          >
+            {{ config.name }}
+          </h5>
+
+          {% if not config.is_active %}
+          <span class="badge text-bg-danger text-wrap">غیرفعال</span>
+          {% endif %}
+
+
+          <!-- Traffic Button -->
+          {% if config.last_order.status != None and config.last_order.status != 'payed' and config.last_order.status != 'payed under checking' %}
+          <button
+            class="btn btn-outline-secondary btn-click w-md-auto"
+            id="payButton_{{ forloop.counter }}"
+            type="button"
+            onclick="togglePaymentForm({{ forloop.counter }})"
+          >
+            پرداخت
+          </button>
+
+          {% endif %}
+        </div>
+
+        <!-- Card Body -->
+        <div
+          class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center"
+        >
+          <!-- Default View (Information) -->
+          <div id="defaultView_{{ forloop.counter }}">
+            <!-- Config Info -->
+            <div class="flex-grow-1 mb-3 mb-md-0">
+              <!-- Traffic Left -->
+              <p class="card-text">
+                ترافیک باقی مانده: {% if config.left_trafic > 5 %}
+                <span class="badge text-bg-success text-wrap"
+                  >{{ config.left_trafic }} GB</span
+                >
+                {% elif config.left_trafic <= 5 and config.left_trafic > 2 %}
+                <span class="badge text-bg-warning text-wrap"
+                  >{{ config.left_trafic }} GB</span
+                >
+                {% else %}
+                <span class="badge text-bg-danger text-wrap"
+                  >{{ config.left_trafic }} GB</span
+                >
+                {% endif %}
+              </p>
+
+              <!-- Days Left -->
+              <p class="card-text">
+                روزهای باقی‌مانده:
+
+                {% if not config.package_days %}
+                <span class="badge text-bg-secondary text-wrap"
+                  >شروع نشده</span
+                >
+                {% elif config.package_days > 5 %}
+                <span class="badge text-bg-success text-wrap"
+                  >{{ config.package_days }} روز</span
+                >
+                {% elif config.package_days <= 5 and config.package_days >= 0 %}
+                <span class="badge text-bg-warning text-wrap"
+                  >{{ config.package_days }} روز</span
+                >
+                {% else %}
+                <span class="badge text-bg-danger text-wrap"
+                  >{{ config.package_days|abs_value }} روز گذشته</span
+                >
+                {% endif %}
+              </p>
+
+              <!-- Payment Status -->
+               <div class="grid gap-3">
+              <p class="card-text">
+                وضعیت آخرین تمدید:
+                {% if config.last_order %}
+                {% if config.last_order.pending %}
+
+                <span class="badge text-bg-info"
+                  >رزرو شده برای تمدید</span
+                >
+                {% else %}
+
+                  <span class="badge text-bg-light">اعمال شده</span>
+                {% endif %}
+
+                {% if config.last_order.status == 'payed' %}
+                <span class="badge text-bg-success">پرداخت شده</span>
+
+                {% elif config.last_order.status == 'payed under checking' %}
+                <span class="badge text-bg-success"
+                  >درحال برسی پرداخت</span
+                >
+
+                {% elif config.last_order.status > 0 %}
+                <span class="badge text-bg-warning"
+                  >پرداخت نشده قطعی در : {{ config.last_order.status }}
+                  روز</span
+                >
+
+                {% elif config.last_order.status <= 0 %}
+                <span class="badge text-bg-danger"
+                  >قطع شده به علت بدهی</span
+                >
+                <span class="badge text-bg-dark"
+                  >{{ config.last_order.plan }}</span
+                >
+
+                {% endif %}
+                {% else %}
+                <span class="badge text-bg-secondary"
+                  >پرداختی موجود نیست</span
+                >
+                {% endif %}
+              </p>
+            </div>
+            </div>
+          </div>
+
+          <!-- QR Code Section -->
+          <div
+            id="qrCodeSection_{{ forloop.counter }}"
+            class="text-center text-md-start thumbnail image"
+          >
+            <span
+              class="d-inline"
+              tabindex="0"
+              data-bs-toggle="popover"
+              data-bs-trigger="hover focus"
+              data-bs-content="برای کپی کردن کلیک کنید"
+            >
+              <img
+                id="qrCodeImage_{{ forloop.counter }}"
+                src="data:image/png;base64,{{ config.qrcode }}"
+                alt="QR Code"
+                class="img-fluid img-thumbnail"
+                style="max-width: 45%; height: auto; cursor: pointer"
+                data-link="{{ config.subscriptionlink }}"
+              />
+            </span>
+          </div>
+
+          <!-- Payment Form View (Hidden by Default) -->
+          <div
+            id="paymentFormView_{{ forloop.counter }}"
+            style="display: none"
+            class="w-100"
+          >
+            <form
+              action="{% url 'submit-payment' %}"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              {% csrf_token %}
+              <!-- Hidden Field for Order PK and Config uuid -->
+              <input
+                type="hidden"
+                name="order_pk"
+                value="{{ config.last_order.pk_order }}"
+              />
+              <input
+                type="hidden"
+                name="config_uuid"
+                value="{{ config.uuid }}"
+              />
+              <!-- Payment Code -->
+              <div class="form-group mb-2">
+                <label for="TrackingCode">کد پیگیری</label>
+                <input
+                  type="text"
+                  name="tracking_code"
+                  class="form-control"
+                  id="TrackingCode"
+                  placeholder="کد پیگیری پرداخت را وارد کنید"
+                />
+              </div>
+
+              <!-- Upload Payment Picture -->
+              <div class="form-group mb-2 d-flex">
+                <label for="paymentPicture">فیش پرداخت</label>
+                <input
+                  type="file"
+                  name="payment_picture"
+                  class="form-control"
+                  id="paymentPicture"
+                  required
+                />
+              </div>
+
+              <!-- Submit and Cancel Buttons -->
+              <button type="submit" class="btn btn-primary">ارسال</button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="cancelPaymentForm({{ forloop.counter }})"
+              >
+                لغو
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        {% if not config.is_active or config.package_days <= 10 or config.left_trafic <= 5 %}
+        {% if config.last_order == None or config.last_order.pending == 'not pending' %}
+        <div class="card-footer">
+          <form
+            method="post"
+            action="{% url 'updateconfig' %}"
+            class="d-flex flex-column flex-md-row space-between-sm"
+          >
+            {% csrf_token %}
+            <input type="hidden" name="config_uuid" value="{{ config.uuid }}" />
+
+            <div
+              class="form-group mb-3 mb-md-0 w-100 d-flex justify-content-center"
+            >
+              <select
+                id="accountOptions_{{ forloop.counter }}"
+                class="form-select"
+                name="accountOption"
+                style="display: inline-block; width: 100%; max-width: 200px"
+              >
+                {% if plans %}
+                {% for plan in plans %}
+                <option value="{{ plan.pk }}">{{ plan }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+
+            <!-- دکمه تمدید -->
+            <button
+              type="submit"
+              class="btn btn-outline-primary btn-click w-md-auto"
+            >
+              تمدید
+            </button>
+          </form>
+        </div>
+
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>

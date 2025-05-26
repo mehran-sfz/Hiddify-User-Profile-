@@ -1,0 +1,41 @@
+<!-- Modal to display admin messages -->
+<div
+  class="modal fade"
+  id="adminMessageModal"
+  tabindex="-1"
+  aria-labelledby="adminMessageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" id="adminMessageModalLabel">پیام‌های مدیریت</h5>
+      </div>
+      <div class="modal-body">
+        <!-- Admin messages will be inserted here -->
+        {% if message_to_users %}
+        <div>
+        {% for message_user in message_to_users %}
+        <h2 class="fs-5">{{ message_user.title }}</h2>
+        <p class="fs-6">{{ message_user.content }}</p>
+        {% if not forloop.last %}
+            <hr>
+        {% endif %}
+        {% endfor %}
+          
+
+        </div>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-click" data-bs-dismiss="modal">
+          بستن
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

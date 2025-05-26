@@ -1,0 +1,275 @@
+@font-face {
+  font-family: "Yekan";
+  src: url("font/B_Yekan/Yekan.ttf") format("truetype");
+}
+
+#alert-box {
+  margin-top: 60px; /* Adjust this value based on your navbar height */
+}
+
+/* --------------- Body ------------------- */
+
+body {
+  background: url("images/batman-pattern1.png") repeat;
+  background-position: center;
+  font-family: "Yekan", sans-serif;
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  z-index: 2;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; 
+  background-color: rgba(31, 31, 31, 0.3);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* -------------------------- Card --------------------------  */
+
+.card {
+  background-color: #ffffffa4;
+  margin: 10px;
+  border-radius: 30px;
+  padding: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden; /* Ensures content inside respects the border-radius */
+}
+
+.card-header:first-child {
+  border-radius: 30px; /* Only round the top-right corner */
+}
+
+.card-header {
+  background-color: #ffffff;
+  padding-inline: 30px;
+  padding-top: 10px; /* Add padding to maintain space */
+  padding-bottom: 10px;
+  overflow: hidden;
+  margin: 10px; /* Remove margin t10px respect border-radius */
+}
+
+.card-header-shadow-success {
+  box-shadow: 0px 0px 15px 3px rgb(9 255 0 / 56%);
+}
+
+.card-header-shadow-warning {
+  box-shadow: 0px 0px 15px 3px rgb(235 255 0 / 56%);
+}
+
+.card-header-shadow-danger {
+  box-shadow: 0px 0px 15px 3px rgb(255 0 0 / 56%);
+}
+
+.card-body {
+  background-color: #ffffff;
+  padding: 30px;
+  padding-inline: 30px;
+  border-radius: 30px; /* Fully rounded edges */
+  margin: 10px; /* Remove margin t10px respect border-radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.card-footer:last-child {
+  border-radius: 30px;
+}
+
+.card-footer {
+  background-color: #ffffff;
+  padding-inline: 30px;
+  padding-top: 10px; /* Add padding to maintain space */
+  padding-bottom: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin: 10px; /* Remove margin t10px respect border-radius */
+}
+
+.thumbnail-image {
+  border-radius: 10px !important;
+}
+
+/* -------------------------- End Card -------------------------- */
+
+/* Content wrapper to ensure the content is above the overlay */
+.content-wrapper {
+  position: relative;
+  z-index: 2; /* Ensure content is on top */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.form-container {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Slight transparency to make the form stand out */
+  padding: 2rem;
+  z-index: 2;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 500px; /* Ensure the form doesn't stretch too wide */
+  width: 100%;
+}
+
+.logout-link {
+  color: red !important; /* Make logout link red */
+  align-self: left;
+}
+
+/* -------------------------- For smaller screens -------------------------- */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 20px;
+  }
+}
+
+.form-container {
+  max-width: 420px;
+  font-family: "Yekan", sans-serif;
+}
+
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: "IRANSans", sans-serif;
+}
+
+/* --------------- Navbar ------------------- */
+
+.navbar {
+  font-family: "Yekan", sans-serif;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative; /* Needed for positioning the menu button */
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+  font-size: 1.5rem;
+  color: #ff723b !important;
+  letter-spacing: 1px;
+}
+
+.navbar-brand:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255, 114, 59, 0.8);
+}
+
+/* Nav link styling */
+.nav-link {
+  font-size: 1.1rem;
+  padding: 10px 15px;
+  color: #2c2c2c !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link:hover {
+  color: #ff723b !important;
+  text-decoration: none;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+/* Menu button styling (hamburger) */
+.navbar-toggler {
+  border: none;
+  background-color: rgb(100, 100, 100); /* Dark gray for contrast on white navbar */
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
+
+/* Add glow and shine effect on hover */
+.navbar-toggler:hover {
+  background-color: rgb(80, 80, 80); /* Slightly lighter on hover */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft blue glow */
+  transform: scale(1.05); /* Slight scaling for a hover effect */
+}
+
+/* Optional: active state */
+.navbar-toggler:active {
+  background-color: rgb(60, 60, 60); /* Darker shade when pressed */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Reduced shadow when pressed */
+  transform: scale(0.98); /* Button presses slightly inward */
+}
+
+/* Contact button style */
+.btn-contact {
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-contact:hover {
+  color: #fff !important;
+}
+
+/* Contact button style */
+.btn-click {
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-click:hover {
+  color: #fff !important;
+}
+
+/* Remove padding/margins from ul */
+.navbar-nav {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+/* Navbar mobile view settings */
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255,255,255,0.7)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* -------------- End Navbar ---------------- */
+
+
+.form-group {
+  align-items: center;
+}
